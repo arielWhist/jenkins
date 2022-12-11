@@ -28,9 +28,12 @@ spec:
     booleanParam(name: "deploy_archive_scanner", value: false, description: "check the box if you would like to deploy archive scanner lambda")
     booleanParam(name: "deploy_archive_file_extractor", value: false, description: "check the box if you would like to deploy archive file extractor lambda")
 }
+pipeline{
+    
  stages {
-    node(label) {
+    node("test") {
             
             echo "test"
     }
+ }
 }
