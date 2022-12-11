@@ -1,5 +1,5 @@
 pipeline {
-  stages any;
+  stages {
   agent {
     kubernetes {
       yaml """
@@ -20,5 +20,6 @@ spec:
       choices: ['latest','1.3.0','1.2.0','1.4.0'],
       description: 'Agent pod configuration'
     )
+  }
   }
 }
