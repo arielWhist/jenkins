@@ -1,38 +1,23 @@
-def choiceArray = []
-agent {
+pipeline {
+  agent {
     kubernetes {
-        yaml '''
-apiVersion: v1
+      yaml """
 kind: Pod
-metadata:
 spec:
-    containers:
-    - name: $label
-    image: busybox
+  containers:
+  - name: example-image
+    image: nginx:${params.AGENT_POD_SPEC}
+    imagePullPolicy: Always
     command:
     - ls
-    tty: true
-    imagePullPolicy: Always
-    volumeMounts:
-    - mountPath: /var/run/docker.sock
-        name: docker-sock
-    volumes:
-    - name: docker-sock
-    hostPath:
-        path: /var/run/docker.sock
-'''
-        }
+"""
     }
-
-pipeline {
-    agent any;
-    parameters { string(name: "branch", defaultValue: 'main')}
-    stages {
-        stage('debug') {
-            steps {
-                echo "Selected choice is : ${params.branch}"
-            }
-        }
-    }
+  }
+  parameters {
+    choice(
+      name: 'AGENT_POD_SPEC',
+      choices: ['latest','1.3.0','1.2.0','1.4.0'],
+      description: 'Agent pod configuration'
+    )
+  }
 }
-
