@@ -1,4 +1,5 @@
 pipeline {
+  stages any;
   agent {
     kubernetes {
       yaml """
