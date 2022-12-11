@@ -30,7 +30,7 @@ pipeline {
     stages {
         stage('debug') {
             steps {
-                echo "Selected choice is : ${params.CHOICES}"
+                echo "Selected choice is : ${params.branch}"
             }
         }
     }
