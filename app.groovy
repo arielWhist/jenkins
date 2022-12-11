@@ -10,7 +10,7 @@ spec:
     - name: $label
     image: busybox
     command:
-    - cat
+    - ls
     tty: true
     imagePullPolicy: Always
     volumeMounts:
@@ -26,7 +26,7 @@ spec:
 
 pipeline {
     agent any;
-    parameters { choice(name: 'CHOICES', choices: choiceArray, description: 'Please Select One') }
+    parameters { string(name: "branch", defaultValue: 'main')}
     stages {
         stage('debug') {
             steps {
