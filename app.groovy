@@ -1,13 +1,29 @@
 def choiceArray = []
-node {
-    checkout scm
-    def folders = sh(returnStdout: true, script: "ls $WORKSPACE")
-    
-    folders.split().each {
-        //condition to skip files if any
-        choiceArray << it
+agent {
+    kubernetes {
+        yaml '''
+apiVersion: v1
+kind: Pod
+metadata:
+spec:
+    containers:
+    - name: $label
+    image: busybox
+    command:
+    - cat
+    tty: true
+    imagePullPolicy: Always
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+        name: docker-sock
+    volumes:
+    - name: docker-sock
+    hostPath:
+        path: /var/run/docker.sock
+'''
+        }
     }
-}
+
 pipeline {
     agent any;
     parameters { choice(name: 'CHOICES', choices: choiceArray, description: 'Please Select One') }
