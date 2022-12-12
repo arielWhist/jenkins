@@ -6,7 +6,7 @@ parameters {
 }
 
 podTemplate(
-        label: label,
+        label: "label",
         cloud: "kubernetes",
         yaml: """\
     apiVersion: v1
